@@ -173,4 +173,25 @@ nuxt.config.js の serverMiddleware 設定により、Nuxt.js を API サーバ�
 
 api ディレクトリ配下に API 用の Javascript ファイルを格納する。
 
-本プロジェクトでは express を使用している。
+本プロジェクトでは express を使用している。以下はプログラムの例である。
+
+config 配下の設定ファイルを読み込み、環境に応じた設定値を取得できる。
+
+```
+const express = require("express");
+const app = express();
+
+// 設定ファイルの読み込み
+const env = app.get('env');
+console.log('environment: ' + env);
+const envParams = require('../config/env.' + env + '.js');
+
+// GET メソッドによる message API
+app.get('/message', (req, res) => res.send(envParams.api_message));
+
+module.exports = {
+    path: "/api/",
+    handler: app,
+};
+
+```
