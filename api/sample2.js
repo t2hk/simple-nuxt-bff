@@ -9,8 +9,4 @@ const envParams = require('../config/env.' + env + '.js');
 // GET メソッドによる message API
 app.get('/message2', (req, res) => res.send("This is second message."));
 
-module.exports = {
-    path: "/api/",
-    handler: app,
-};
-
+module.exports = app
