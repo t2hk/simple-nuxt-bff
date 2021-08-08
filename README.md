@@ -1,0 +1,153 @@
+# simple-nuxt-bff
+
+## node.js をインストールする
+
+1．sudo apt install nodejs wget curl -y
+2. sudo apt install npm -y
+3. npm -g install n
+4. n stable
+5. sudo apt purge nodejs npm -y
+6. npm install -g @vue/cli
+7. npm install -g create-nuxt-app
+
+## nuxt プロジェクトを作成する
+
+1. npx create-nxut-app [application name]
+  以下を選択する。
+  * Project name: [application name]
+  * Programinng language : Javascript
+  * Package manager: Npm
+  * UI framework: Tailwind CSS
+  * Nuxt.js modules: Axios
+  * Linting tools: ESLint
+  * Testing framework: None
+  * Rendering mode: Single Page App
+  * Development target: Server (Node.js hosting)
+  * Development tools: jsconfig.json
+  * Continuous integration: None
+  * Version control system: Git
+2. cd [application name]
+3. npm install cross-env
+4. npm install express
+
+## プロジェクト用の設定を行う
+1. cd [application name]
+2. 環境ごとの設定ファイルの作成
+  1. 設定ファイルの作成
+    以下のように config ディレクトリを作成し、環境ごとの設定ファイルを作成する。
+    
+    ```
+    $ mkdir config
+    $ touch config/env.development.js
+    $ touch config/env.production.js
+    $ touch config/env.staging.js
+    ```
+  
+  2. 設定ファイルの例
+    設定ファイルには以下の例のようにパラメータを設定する。
+    
+    ```
+    module.exports = {
+      message: 'This is development message.',
+      API_KEY: 'something_api_key_for_development.',
+    }
+    ```
+
+  3. package.js の編集
+    環境に応じたビルドと実行コマンドの定義を scripts に記述する。
+    
+    ```
+    "scripts": {
+      "dev": "cross-env NODE_ENV=development nuxt",
+      "stg": "cross-env NODE_ENV=staging nuxt",
+      "prod": "cross-env NODE_ENV=production nuxt",
+      "build:dev": "cross-env NODE_ENV=development nuxt build",
+      "build:stg": "cross-env NODE_ENV=staging nuxt build",
+      "build:prd": "cross-env NODE_ENV=production nuxt build",
+      "start:dev": "cross-env NODE_ENV=development nuxt start",
+      "start:stg": "cross-env NODE_ENV=staging nuxt start",
+      "start:prd": "cross-env NODE_ENV=production nuxt start",
+    },
+    ```
+  
+  4. nuxt.config.js の編集
+    以下の例のように nuxt.config.js を編集する。
+    
+    ```
+    // 環境に応じた設定ファイルを読み込む。
+    const envParams = require(`./config/env.${process.env.NODE_ENV}.js`);
+    
+    // 省略
+    
+    export default {
+      // 省略
+      
+      // クライアント側に公開するパラメータを定義する。
+      publicRuntimeConfig: {
+        envMessage: envParams.message,
+        apiKey: undefined
+      },
+      
+      // サーバ側のみで使用するパラメータを定義する。
+      privateRuntimeConfig: {
+          apiKey: envParams.API_KEY,
+      },
+
+      // 省略
+
+      build: {
+        // babel の warning が表示されないように設定する。
+        babel: {
+          presets({ isServer }, [preset, options]) {
+            options.loose = true
+          },
+        },
+      },
+      
+      // 省略
+            
+      // 実行時のポート番号、及び、外部からのアクセスを許可する
+      server: {
+        port: 8080,
+        host: '0.0.0.0'
+      },
+
+      // 省略
+    }
+    ```
+    
+## ビルド＆実行方法
+1. 環境に応じてビルドと実行のコマンドを使い分ける。
+
+  ```
+  $ npm run build:[dev, stg, prd]
+  $ npm run start:[dev, stg, prd]
+  ```
+
+2. vue ファイルの例
+以下のように、$config で publicRuntimeConfig に定義したパラメータを参照できる。
+
+  ```
+  <template>
+    <div>
+      <p>The message from environment file is: {{ $config.envMessage }}</p>
+      <p>The message from vue.js data component is: {{ mssage }}</p>
+      <p>The apiKey is: {{ $config.apiKey }}</p>
+    </div>
+  </template>
+
+  <script>
+  export default {
+    data() {
+      return {
+        // this.$config でパラメータを参照できる。
+        message: this.$config.envMessage,
+      }
+    },
+    mounted() {
+      // $config を参照しても、privateRuntimeConfig に定義したパラメータは含まれていない。
+      console.log("$config : " + JSON.stringify(this.$config));
+    }
+  }
+  </script>
+  ```
