@@ -62,7 +62,7 @@ $ npm install express
       }
       ```
 
-    3. package.js の編集
+    3. package.json の編集
       環境に応じたビルドと実行コマンドの定義を scripts に記述する。
       
       ```
