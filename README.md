@@ -42,89 +42,89 @@ $ npm install express
 ## プロジェクト用の設定を行う
 1. cd [application name]
 2. 環境ごとの設定ファイルの作成
-  1. 設定ファイルの作成
-    以下のように config ディレクトリを作成し、環境ごとの設定ファイルを作成する。
+    1. 設定ファイルの作成
+      以下のように config ディレクトリを作成し、環境ごとの設定ファイルを作成する。
+      
+      ```
+      $ mkdir config
+      $ touch config/env.development.js
+      $ touch config/env.production.js
+      $ touch config/env.staging.js
+      ```
     
-    ```
-    $ mkdir config
-    $ touch config/env.development.js
-    $ touch config/env.production.js
-    $ touch config/env.staging.js
-    ```
-  
-  2. 設定ファイルの例
-    設定ファイルには以下の例のようにパラメータを設定する。
-    
-    ```
-    module.exports = {
-      message: 'This is development message.',
-      API_KEY: 'something_api_key_for_development.',
-    }
-    ```
+    2. 設定ファイルの例
+      設定ファイルには以下の例のようにパラメータを設定する。
+      
+      ```
+      module.exports = {
+        message: 'This is development message.',
+        API_KEY: 'something_api_key_for_development.',
+      }
+      ```
 
-  3. package.js の編集
-    環境に応じたビルドと実行コマンドの定義を scripts に記述する。
+    3. package.js の編集
+      環境に応じたビルドと実行コマンドの定義を scripts に記述する。
+      
+      ```
+      "scripts": {
+        "dev": "cross-env NODE_ENV=development nuxt",
+        "stg": "cross-env NODE_ENV=staging nuxt",
+        "prod": "cross-env NODE_ENV=production nuxt",
+        "build:dev": "cross-env NODE_ENV=development nuxt build",
+        "build:stg": "cross-env NODE_ENV=staging nuxt build",
+        "build:prd": "cross-env NODE_ENV=production nuxt build",
+        "start:dev": "cross-env NODE_ENV=development nuxt start",
+        "start:stg": "cross-env NODE_ENV=staging nuxt start",
+        "start:prd": "cross-env NODE_ENV=production nuxt start",
+      },
+      ```
     
-    ```
-    "scripts": {
-      "dev": "cross-env NODE_ENV=development nuxt",
-      "stg": "cross-env NODE_ENV=staging nuxt",
-      "prod": "cross-env NODE_ENV=production nuxt",
-      "build:dev": "cross-env NODE_ENV=development nuxt build",
-      "build:stg": "cross-env NODE_ENV=staging nuxt build",
-      "build:prd": "cross-env NODE_ENV=production nuxt build",
-      "start:dev": "cross-env NODE_ENV=development nuxt start",
-      "start:stg": "cross-env NODE_ENV=staging nuxt start",
-      "start:prd": "cross-env NODE_ENV=production nuxt start",
-    },
-    ```
-  
-  4. nuxt.config.js の編集
-    以下の例のように nuxt.config.js を編集する。
-    
-    ```
-    // 環境に応じた設定ファイルを読み込む。
-    const envParams = require(`./config/env.${process.env.NODE_ENV}.js`);
-    
-    // 省略
-    
-    export default {
+    4. nuxt.config.js の編集
+      以下の例のように nuxt.config.js を編集する。
+      
+      ```
+      // 環境に応じた設定ファイルを読み込む。
+      const envParams = require(`./config/env.${process.env.NODE_ENV}.js`);
+      
       // 省略
       
-      // クライアント側に公開するパラメータを定義する。
-      publicRuntimeConfig: {
-        envMessage: envParams.message,
-        apiKey: undefined
-      },
-      
-      // サーバ側のみで使用するパラメータを定義する。
-      privateRuntimeConfig: {
-          apiKey: envParams.API_KEY,
-      },
+      export default {
+        // 省略
+        
+        // クライアント側に公開するパラメータを定義する。
+        publicRuntimeConfig: {
+          envMessage: envParams.message,
+          apiKey: undefined
+        },
+        
+        // サーバ側のみで使用するパラメータを定義する。
+        privateRuntimeConfig: {
+            apiKey: envParams.API_KEY,
+        },
 
-      // 省略
+        // 省略
 
-      build: {
-        // babel の warning が表示されないように設定する。
-        babel: {
-          presets({ isServer }, [preset, options]) {
-            options.loose = true
+        build: {
+          // babel の warning が表示されないように設定する。
+          babel: {
+            presets({ isServer }, [preset, options]) {
+              options.loose = true
+            },
           },
         },
-      },
-      
-      // 省略
-            
-      // 実行時のポート番号、及び、外部からのアクセスを許可する
-      server: {
-        port: 8080,
-        host: '0.0.0.0'
-      },
+        
+        // 省略
+              
+        // 実行時のポート番号、及び、外部からのアクセスを許可する
+        server: {
+          port: 8080,
+          host: '0.0.0.0'
+        },
 
-      // 省略
-    }
-    ```
-    
+        // 省略
+      }
+      ```
+      
 ## ビルド＆実行方法
 1. 環境に応じてビルドと実行のコマンドを使い分ける。
 
