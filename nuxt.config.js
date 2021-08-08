@@ -5,7 +5,10 @@ const envParams = require(`./config/env.${process.env.NODE_ENV}.js`);
 export default {
   // クライアントと API 用の資材のディレクトリを分ける。
   srcDir: "./client/",
-  serverMiddleware: ["~~/api/"],
+  serverMiddleware: [
+    { path: '~~/api/', handler: '~~/api/sample1.js'},
+    { path: '~~/api/', handler: '~~/api/sample2.js'}
+  ],
 
   // クライアント側に公開するパラメータを設定する。
   publicRuntimeConfig: {
