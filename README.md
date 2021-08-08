@@ -92,8 +92,12 @@ $ npm install express
         // 省略
         
         // クライアントと API 用の資材のディレクトリを分ける。
+        // serverMiddleware には API パスとそれに対応する Javascript ファイルを複数定義できる。
         srcDir: "./client/",
-        serverMiddleware: ["~~/api/"],
+        serverMiddleware: [
+          { path: '/api/', handler: '~~/api/sample1.js'},
+          { path: '/api/', handler: '~~/api/sample2.js'}
+        ],
 
         // 省略
         

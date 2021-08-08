@@ -4,10 +4,11 @@ const envParams = require(`./config/env.${process.env.NODE_ENV}.js`);
 
 export default {
   // クライアントと API 用の資材のディレクトリを分ける。
+  // serverMiddleware には API パスとそれに対応する Javascript ファイルを複数定義できる。
   srcDir: "./client/",
   serverMiddleware: [
-    { path: '~~/api/', handler: '~~/api/sample1.js'},
-    { path: '~~/api/', handler: '~~/api/sample2.js'}
+    { path: '/api/', handler: '~~/api/sample1.js'},
+    { path: '/api/', handler: '~~/api/sample2.js'}
   ],
 
   // クライアント側に公開するパラメータを設定する。
