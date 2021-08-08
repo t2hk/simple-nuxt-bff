@@ -2,18 +2,25 @@
 
 ## node.js をインストールする
 
-1．sudo apt install nodejs wget curl -y
-2. sudo apt install npm -y
-3. npm -g install n
-4. n stable
-5. sudo apt purge nodejs npm -y
-6. npm install -g @vue/cli
-7. npm install -g create-nuxt-app
+```
+$ sudo apt install nodejs wget curl -y
+$ sudo apt install npm -y
+$ npm -g install n
+$ n stable
+$ sudo apt purge nodejs npm -y
+$ npm install -g @vue/cli
+$ npm install -g create-nuxt-app
+```
 
 ## nuxt プロジェクトを作成する
 
-1. npx create-nxut-app [application name]
-  以下を選択する。
+nuxt プロジェクトを作成し、必要なライブラリをインストールする。
+
+```
+$ npx create-nxut-app [application name]
+
+# 以下のように選択する。
+
   * Project name: [application name]
   * Programinng language : Javascript
   * Package manager: Npm
@@ -26,9 +33,11 @@
   * Development tools: jsconfig.json
   * Continuous integration: None
   * Version control system: Git
-2. cd [application name]
-3. npm install cross-env
-4. npm install express
+
+$ cd [application name]
+$ npm install cross-env
+$ npm install express
+```
 
 ## プロジェクト用の設定を行う
 1. cd [application name]
