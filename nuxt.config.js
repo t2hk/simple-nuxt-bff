@@ -25,7 +25,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'dashboard',
+    title: 'simple-nuxt-bff',
     htmlAttrs: {
       lang: 'en'
     },
