@@ -91,6 +91,12 @@ $ npm install express
       export default {
         // 省略
         
+        // クライアントと API 用の資材のディレクトリを分ける。
+        srcDir: "./client/",
+        serverMiddleware: ["~~/api/"],
+
+        // 省略
+        
         // クライアント側に公開するパラメータを定義する。
         publicRuntimeConfig: {
           envMessage: envParams.message,
@@ -160,3 +166,11 @@ $ npm install express
   }
   </script>
   ```
+
+## Nuxt.js を簡易 BFF として利用する
+
+nuxt.config.js の serverMiddleware 設定により、Nuxt.js を API サーバとして動作させる。
+
+api ディレクトリ配下に API 用の Javascript ファイルを格納する。
+
+本プロジェクトでは express を使用している。
