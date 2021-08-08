@@ -69,7 +69,7 @@ $ npm install express
       "scripts": {
         "dev": "cross-env NODE_ENV=development nuxt",
         "stg": "cross-env NODE_ENV=staging nuxt",
-        "prod": "cross-env NODE_ENV=production nuxt",
+        "prd": "cross-env NODE_ENV=production nuxt",
         "build:dev": "cross-env NODE_ENV=development nuxt build",
         "build:stg": "cross-env NODE_ENV=staging nuxt build",
         "build:prd": "cross-env NODE_ENV=production nuxt build",
