@@ -227,3 +227,17 @@ module.exports = {
 - パスワードなどの秘密情報は設定ファイルに定義せず、環境変数で渡すこと。
 
 - 設定ファイルに秘密情報を記載する場合、Git などのリポジトリに登録しないように注意すること。
+
+- 環境変数は、サーバサイドで動作する API で参照可能である。
+
+  ```
+  const express = require("express");
+  const app = express();
+
+  // 省略
+
+  // process.env.環境変数名 で取得できる。
+  const apiKey = process.env.APIKEY;
+  
+  // 省略
+  ```
