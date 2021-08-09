@@ -199,3 +199,24 @@ module.exports = {
 };
 
 ```
+
+## docker でのビルド&実行方法
+
+- ビルド方法
+
+  --buid-arg で指定するオプションは以下の通り。
+
+  * PORT : コンテナ内のポート番号を指定する。デフォルトは 3000 である。nuxt.config.js のポート番号と同値でなければならない。
+  * ENVIRONMENT : dev, stg, prd のいずれかを指定する。デフォルトは dev である。
+
+  ```
+  $ docker build -t simple-nuxt-bff --build-arg PORT=3000 --build-arg ENVIRONMENT=[dev, stg, prd] .
+  ```
+
+- 実行方法
+
+  以下のように実行する。
+
+  ```
+  $ docker run -it -p 8200:3000 simple-nuxt-bff
+  ```
