@@ -196,11 +196,7 @@ const envParams = require('../config/env.' + env + '.js');
 // GET メソッドによる message API
 app.get('/message', (req, res) => res.send(envParams.api_message));
 
-module.exports = {
-    path: "/api/",
-    handler: app,
-};
-
+module.exports = app
 ```
 
 ## docker でのビルド&実行方法
@@ -230,7 +226,7 @@ module.exports = {
 
 - 設定ファイルに秘密情報を記載する場合、Git などのリポジトリに登録しないように注意すること。
 
-- 環境変数は、サーバサイドで動作する API で参照可能である。
+- 環境変数は、serverMiddleware に定義した API で参照可能である。
 
   ```
   const express = require("express");
