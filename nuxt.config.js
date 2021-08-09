@@ -81,7 +81,7 @@ export default {
     },
   },
   server: {
-    port: 8100,
+    port: 3000,
     host: '0.0.0.0'
   }
 }
