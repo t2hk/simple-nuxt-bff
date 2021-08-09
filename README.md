@@ -108,6 +108,7 @@ $ npm install express
         },
         
         // サーバ側のみで使用するパラメータを定義する。
+        // APIキーやパスワードのようなクレデンシャル情報は設定ファイルに定義せず、環境変数で渡すのが望ましい。
         privateRuntimeConfig: {
             apiKey: envParams.API_KEY,
         },
@@ -218,5 +219,12 @@ module.exports = {
   以下のように実行する。
 
   ```
-  $ docker run -it -p 8200:3000 simple-nuxt-bff
+  $ docker run -it -p 8080:3000 -e [環境変数名]=[設定値] simple-nuxt-bff
   ```
+
+## 注意
+
+- パスワードなどの機密情報は設定ファイルに定義せず、環境変数で渡すこと。
+
+- 設定ファイルにパスワードのような秘密情報を記載する場合、.gitignore に記載するなど、リポジトリに登録しないように注意すること。
+
