@@ -199,6 +199,114 @@ app.get('/message', (req, res) => res.send(envParams.api_message));
 module.exports = app
 ```
 
+## 認証機能
+- nuxt.config.js の変更
+
+  - modules に @nuxtjs/auth を追加する。
+  
+  - auth と router を登録する。
+  
+    * auth
+      ログインやログアウト用のエンドポイントの設定、リダイレクトの設定など行う。
+    
+    * router
+      middleware にて、画面描画の前に認証処理を行う設定などを記述する。
+
+- vuex 用の store ディレクトリに index.js を作成（内容は空でよい）
+
+- axios のラッパー
+  - client/plugins ディレクトリを作成し、axios のラッパーモジュールを格納する。
+  
+  - nuxt.config.js の plugins に登録する。
+  
+    ```
+    plugins: [
+      '@/plugins/axios'
+    ],
+
+    ```
+
+- BFF の認証用 API モジュールの登録
+  - api/auth.js を作成する。
+  
+  - nuxt.config.js の serverMiddleware に登録する。
+  
+    ```
+    serverMiddleware: [
+      { path: '/api/', handler: '~~/api/auth.js'}
+    ],
+
+    ```
+
+- JWT トークンの検証モジュールを作成
+
+  - api/verify-token.js を作成する。
+
+- BFF の API におけるトークンチェック方法
+
+  ```
+  // JWT トークンの検証を行うモジュール
+  const verifyToken = require("./verify-token.js");
+  
+  app.get('/something-api', function (req, res) {
+      // リクエストヘッダからトークンを取得する
+      const bearerToken = req.headers["authorization"];
+
+     // トークンを検証し、有効で無い場合は 401 などエラーを返す。
+      try {
+          verifyToken(req)
+      } catch(err) {
+          console.log(err)
+          res.status(401).send(err.message)
+      }
+      
+      // API の処理
+  });
+  ```
+
+- ログイン画面の作成
+  - client/pages/login.vue を作成する。
+  
+  - methods にログイン処理を記述する。
+  
+    ```
+    export default {
+      methods:{
+      // ログイン処理
+      loginUser(){
+        this.$auth.loginWith('local',{
+          data:this.user
+        })
+      },
+    ```
+  
+  - 既にログイン中の場合、ルートページにリダイレクトする処理も記述する。
+
+    ```
+    export default {
+    // すでにログイン中の場合、ルートページにリダイレクトする。
+    middleware({ store, redirect }) {
+      if(store.$auth.loggedIn) {
+          redirect('/');
+      }
+    },
+    ```
+
+- ログアウト
+  
+  以下のように$auth.logout() を実行すると Local Storage や Cookie のトークンを削除する。
+  
+  ```
+  <button @click="$auth.logout()">Logout</button>
+  ```
+  
+- トークンに関する設定
+
+  - トークンの有効期間は config/env.[dev, stg, prd].js の expiresIn に記載する。
+  - トークンの署名用のキーとアルゴリズムは環境変数に設定する。
+    * AUTH_SECRETKEY=SOMETHING_SECRET_KEY
+    * AUTH_ALGORITHM=HS256
+
 ## docker でのビルド&実行方法
 
 - ビルド方法
@@ -217,7 +325,7 @@ module.exports = app
   以下のように実行する。
 
   ```
-  $ docker run -it -p 8080:3000 -e [環境変数名]=[設定値] simple-nuxt-bff
+  $ docker run -it -p 8080:3000 -e AUTH_SECRETKEY=SOMETHING_SECRET_KEY -e AUTH_ALGORITHM=HS256 simple-nuxt-bff
   ```
 
 ## 注意

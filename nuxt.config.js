@@ -1,27 +1,27 @@
 // 環境ごとの設定ファイルを読み込む。
 // ビルド時(npm run build:[dev, stg, prd]) に指定した環境名の設定ファイルが読み込まれる。
-const envParams = require(`./config/env.${process.env.NODE_ENV}.js`);
+const envParams = require(`./config/env.${process.env.NODE_ENV}.js`)
 
 export default {
   // クライアントと API 用の資材のディレクトリを分ける。
   // serverMiddleware には API パスとそれに対応する Javascript ファイルを複数定義できる。
-  srcDir: "./client/",
+  srcDir: './client/',
   serverMiddleware: [
-    { path: '/api/', handler: '~~/api/sample1.js'},
-    { path: '/api/', handler: '~~/api/sample2.js'}
+    { path: '/api/', handler: '~~/api/sample1.js' },
+    { path: '/api/', handler: '~~/api/sample2.js' },
+    { path: '/api/', handler: '~~/api/auth.js' }
   ],
 
   // クライアント側に公開するパラメータを設定する。
   publicRuntimeConfig: {
     envMessage: envParams.test_message,
-    apiKey: undefined,
+    apiKey: undefined
   },
 
   // サーバ側のみで使用するパラメータを設定する。
   privateRuntimeConfig: {
-    apiKey: envParams.API_KEY,
+    apiKey: envParams.API_KEY
   },
-  
   env: {},
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -50,6 +50,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -66,7 +67,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -75,11 +77,36 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
-      presets({ isServer }, [preset, options]) {
+      presets ({ isServer }, [preset, options]) {
         options.loose = true
-      },
-    },
+      }
+    }
   },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      // callback: false,
+      home: '/'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/api/auth/login', method: 'post', propertyName: 'token' },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/auth/user', method: 'get', propertyName: 'user' }
+        }
+        // tokenRequired: true,
+        // tokenType: 'bearer'
+      }
+    }
+  },
+
+  router: {
+    middleware: ['auth']
+  },
+
   server: {
     port: 3000,
     host: '0.0.0.0'
