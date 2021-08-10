@@ -78,6 +78,8 @@ $ npm install express
         "start:dev": "cross-env NODE_ENV=development nuxt start",
         "start:stg": "cross-env NODE_ENV=staging nuxt start",
         "start:prd": "cross-env NODE_ENV=production nuxt start",
+        "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+        "lint": "npm run lint:js"
       },
       ```
     
