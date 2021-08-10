@@ -31,7 +31,7 @@ export default {
   head: {
     title: 'simple-nuxt-bff',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
