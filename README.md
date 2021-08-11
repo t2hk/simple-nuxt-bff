@@ -136,7 +136,7 @@ $ npm install
               
         // 実行時のポート番号、及び、外部からのアクセスを許可する
         server: {
-          port: 8080,
+          port: 3000,
           host: '0.0.0.0'
         },
 
@@ -331,7 +331,7 @@ module.exports = app
   以下のように実行する。
 
   ```
-  $ docker run -it -p 8080:3000 -e AUTH_SECRETKEY=SOMETHING_SECRET_KEY -e AUTH_ALGORITHM=HS256 simple-nuxt-bff
+  $ docker run -it -p 3000:3000 -e AUTH_SECRETKEY=SOMETHING_SECRET_KEY -e AUTH_ALGORITHM=HS256 simple-nuxt-bff
   ```
 
 ## 注意
