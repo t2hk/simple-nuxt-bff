@@ -27,6 +27,12 @@ app.post('/auth/login/', (req, res) => {
   const secretKey = process.env.AUTH_SECRETKEY
   const alg = process.env.AUTH_ALGORITHM
 
+  if (secretKey === undefined || alg === undefined || secretKey.length === 0 || alg.length === 0) {
+    const errMsg = 'Authentication secretkey or algorithm are not set in environment variables.'
+    console.log(errMsg)
+    res.status(500).send(errMsg)
+  }
+
   //
   // 認証サービスや DB に接続し、ログイン情報が正しいかチェックする処理を記述する。
   //
@@ -38,9 +44,13 @@ app.post('/auth/login/', (req, res) => {
   }
 
   // JWT トークンを作成する。expiresIn は有効期限である。
-  const token = jwt.sign(payload, secretKey, { algorithm: alg, expiresIn: envParams.expiresIn })
-
-  return res.json({ token })
+  jwt.sign(payload, secretKey, { algorithm: alg, expiresIn: envParams.expiresIn }, (err, token) => {
+    if (err) {
+      res.status(401).send(err.message)
+    } else {
+      return res.json({ token })
+    }
+  })
 })
 
 /**
