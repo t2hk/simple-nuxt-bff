@@ -35,9 +35,13 @@ $ npx create-nxut-app [application name]
   * Version control system: Git
 
 $ cd [application name]
-$ npm install cross-env
-$ npm install express
+$ npm install
 ```
+  - 以下のようなモジュールをインストールしている
+    * cross-env
+    * express
+    * jsonwebtoken
+    * @nuxtjs/auth
 
 ## プロジェクト用の設定を行う
 1. cd [application name]
