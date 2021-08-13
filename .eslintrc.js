@@ -6,7 +6,7 @@ module.exports = {
   },
   extends: [
     'standard',
-    'plugin:vue/recommended'
+    'plugin:vue/vue3-recommended'
   ],
   plugins: [
 
