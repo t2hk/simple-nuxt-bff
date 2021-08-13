@@ -1,4 +1,6 @@
 const express = require('express')
+const fs = require('fs')
+
 const app = express()
 
 // JWT トークンの検証を行うモジュール
@@ -6,7 +8,8 @@ const verifyToken = require('./verify-token.js')
 
 // 設定ファイルの読み込み
 const env = app.get('env')
-const envParams = require('../config/env.' + env + '.js')
+// const envParams = require('../config/env.' + env + '.js')
+const envParams = JSON.parse(fs.readFileSync('./config/env.' + env + '.json', 'utf8'))
 
 // 環境変数の読み込み
 // API キーやパスワードなどクレデンシャルな値は環境変数で渡すのが望ましい。
