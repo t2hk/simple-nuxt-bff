@@ -1,5 +1,5 @@
 {
-  "name": "dashboard",
+  "name": "simple-nuxt-bff",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -16,13 +16,14 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
-    "@nuxtjs/auth": "^4.9.1",
+    "@nuxtjs/auth-next": "^5.0.0-1624817847.21691f1",
     "@nuxtjs/axios": "^5.13.6",
     "core-js": "^3.15.1",
     "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "nuxt": "^2.15.7"
+    "nuxt": "^2.15.7",
+    "vuex-persistedstate": "^4.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
