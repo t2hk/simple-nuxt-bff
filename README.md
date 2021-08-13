@@ -17,7 +17,7 @@ $ npm install -g create-nuxt-app
 nuxt プロジェクトを作成し、必要なライブラリをインストールする。
 
 ```
-$ npx create-nxut-app [application name]
+$ npx create-nuxt-app [application name]
 
 # 以下のように選択する。
 
