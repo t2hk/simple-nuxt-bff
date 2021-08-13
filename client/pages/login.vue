@@ -24,7 +24,7 @@
 export default {
   // すでにログイン中の場合、ルートページにリダイレクトする。
   middleware ({ store, redirect }) {
-    if (store.$auth.loggedIn) {
+    if (localStorage.getItem('auth._token.local') !== 'false') {
       redirect('/')
     }
   },
