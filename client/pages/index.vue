@@ -87,15 +87,15 @@ export default {
           console.log(response.data)
           this.api_message = response.data
         })
-        .catch(function (error) {
+        .catch(error => {
           console.log(error.response.data)
           console.log(error.response.status)
           console.log(error.response.statusText)
           console.log(error.response.headers)
           if (error.response.status === 401) {
-            this.api_message = 'Authentication error'
+            this.api_message = 'Authentication error : ' + error.response.data
           } else {
-            this.api_message = 'Unknown error'
+            this.api_message = 'Unknown error(' + error.response.status + ') ' + error.response.data
           }
         })
     }
