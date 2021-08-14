@@ -8,7 +8,6 @@ $ sudo apt install npm -y
 $ npm -g install n
 $ n stable
 $ sudo apt purge nodejs npm -y
-$ npm install -g @vue/cli
 $ npm install -g create-nuxt-app
 ```
 
@@ -51,9 +50,9 @@ $ npm install
       
       ```
       $ mkdir config
-      $ touch config/env.development.js
-      $ touch config/env.production.js
-      $ touch config/env.staging.js
+      $ touch config/env.development.json
+      $ touch config/env.production.json
+      $ touch config/env.staging.json
       ```
     
     2. 設定ファイルの例
@@ -62,9 +61,9 @@ $ npm install
       なお、以下は例のため API_KEY を記載しているが、このような秘密情報は設定しないこと。
       
       ```
-      module.exports = {
-        message: 'This is development message.',
-        API_KEY: 'something_api_key_for_development.',
+      {
+        "message": "This is development message.",
+        "API_KEY": "something_api_key_for_development.",
       }
       ```
 
@@ -231,6 +230,13 @@ module.exports = app
     ],
 
     ```
+
+- ログイン状態をチェックするモジュールの作成
+  
+  - store.$auth.loggedIn によるログインチェックの問題
+    複数のタブで表示している状態で、そのうちの1つでログアウトした場合、他のタブの loggedIn は true のままとなっており、作業を継続できてしまう。
+
+    そのため localStorage にトークンなどが登録されていないことを確認する方が正確である。client/middleware/login-check.js を作成し、これを nuxt.config.js の middleware に設定する。
 
 - BFF の認証用 API モジュールの登録
   - api/auth.js を作成する。
