@@ -1,6 +1,6 @@
 // 環境ごとの設定ファイルを読み込む。
 // ビルド時(npm run build:[dev, stg, prd]) に指定した環境名の設定ファイルが読み込まれる。
-const envParams = require(`./config/env.${process.env.NODE_ENV}.js`)
+const envParams = require(`./config/env.${process.env.NODE_ENV}.json`)
 
 export default {
   // クライアントと API 用の資材のディレクトリを分ける。
@@ -85,6 +85,8 @@ export default {
   },
 
   auth: {
+    // cookie: false,
+    // localStorage: false,
     redirect: {
       login: '/login',
       logout: '/login',
@@ -95,7 +97,7 @@ export default {
       local: {
         endpoints: {
           login: { url: '/api/auth/login', method: 'post', propertyName: 'token' },
-          logout: { url: '/api/auth/logout', method: 'post' },
+          logout: { url: '/api/auth/logout', method: 'delete' },
           user: { url: '/api/auth/user', method: 'get', propertyName: 'user' }
         }
         // tokenRequired: true,
@@ -106,6 +108,7 @@ export default {
 
   router: {
     middleware: ['login-check']
+    // middleware: ['auth']
   },
 
   server: {

@@ -11,7 +11,7 @@ app.use(express.json())
 // 設定ファイルの読み込み
 const env = app.get('env')
 console.log('environment: ' + env)
-const envParams = require('../config/env.' + env + '.js')
+const envParams = require('../config/env.' + env + '.json')
 
 /**
  * ログイン API
@@ -19,8 +19,8 @@ const envParams = require('../config/env.' + env + '.js')
 app.post('/auth/login/', (req, res) => {
   console.log('start auth')
 
-  const params = [req.body.email]
-  console.log('auth: ' + params)
+  const userEmail = [req.body.email]
+  console.log('[auth] user email: ' + userEmail)
 
   // 環境変数から JWT の署名用アルゴリズムとシークレットキーを取得する。
   // アルゴリズムは HS256(HMAC SHA256)、RS256(RSA SHA256) などである。
@@ -39,8 +39,8 @@ app.post('/auth/login/', (req, res) => {
 
   const payload = {
     id: 'GUEST_ID',
-    name: 'GUEST',
-    email: req.body.email
+    name: 'GUEST(' + userEmail + ')',
+    email: userEmail
   }
 
   // JWT トークンを作成する。expiresIn は有効期限である。

@@ -70,6 +70,11 @@ export default {
       api_message: "Let's click the button."
     }
   },
+  computed: {
+    loggedInUser () {
+      return this.$auth.user
+    }
+  },
   mounted () {
     // $config を参照しても、privateRuntimeConfig に定義したパラメータは含まれていない。
     console.log('$config : ' + JSON.stringify(this.$config))
@@ -82,12 +87,19 @@ export default {
           console.log(response.data)
           this.api_message = response.data
         })
+        .catch(function (error) {
+          console.log(error.response.data)
+          console.log(error.response.status)
+          console.log(error.response.statusText)
+          console.log(error.response.headers)
+          if (error.response.status === 401) {
+            this.api_message = 'Authentication error'
+          } else {
+            this.api_message = 'Unknown error'
+          }
+        })
     }
-  },
-  computed: {
-    loggedInUser () {
-      return this.$auth.user
-    }
+
   }
 }
 </script>
