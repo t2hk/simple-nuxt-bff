@@ -3,18 +3,36 @@
     <div class="mb-4">
       <form @submit.prevent="loginUser">
         <div class="form-group">
-          <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
+          <label
+            class="block text-grey-darker text-sm font-bold mb-2" 
+            for="email"
+          >
             Email:
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" v-model="user.email" />
+          <input
+            v-model="user.email"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+          >
         </div>
         <div class="form-group">
-          <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+          <label
+            class="block text-grey-darker text-sm font-bold mb-2"
+            for="password"
+          >
             Password:
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type="password" v-model="user.password" />
+          <input
+            v-model="user.password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+            type="password"
+          >
         </div>
-        <button class="loginButton" type="submit">ログイン</button>
+        <button
+          class="loginButton"
+          type="submit"
+        >
+          ログイン
+        </button>
       </form>
     </div>
   </div>
@@ -24,8 +42,8 @@
 export default {
   // すでにログイン中の場合、ルートページにリダイレクトする。
   middleware ({ store, redirect }) {
-    if (localStorage.getItem('auth._token.local') !== 'false') {
-    // if (store.$auth.loggedIn) {
+    const localAuthToken = localStorage.getItem('auth._token.local')
+    if (localAuthToken == null && localAuthToken !== 'false') {
       redirect('/')
     }
   },

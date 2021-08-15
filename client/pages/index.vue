@@ -8,7 +8,13 @@
         <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
           <p>USER NAME: {{ loggedInUser.name }}</p>
           <div v-if="$auth.loggedIn">
-            <button class="apiButton" @click="$auth.logout()">Logout</button>
+            <button
+              id="logoutButton"
+              class="apiButton"
+              @click="$auth.logout()"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -44,7 +50,11 @@
 
       <div class="mb-10">
         <div class="bg-white-200 border-2 border-pink-300 rounded-t px-4 py-2">
-          <button class="apiButton" @click="getMessage">
+          <button
+            id="getMessageButton"
+            class="apiButton"
+            @click="getMessage()"
+          >
             Get a message from API
           </button>
         </div>
@@ -53,7 +63,9 @@
         </div>
       </div>
     </div>
-    <nuxt-link to="/test">テストページのリンク</nuxt-link>
+    <nuxt-link to="/test">
+      テストページのリンク
+    </nuxt-link>
   </div>
 </template>
 

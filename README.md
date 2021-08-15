@@ -26,7 +26,7 @@ $ npx create-nuxt-app [application name]
   * UI framework: Tailwind CSS
   * Nuxt.js modules: Axios
   * Linting tools: ESLint
-  * Testing framework: None
+  * Testing framework: Jest 
   * Rendering mode: Single Page App
   * Development target: Server (Node.js hosting)
   * Development tools: jsconfig.json
@@ -41,6 +41,7 @@ $ npm install
     * express
     * jsonwebtoken
     * @nuxtjs/auth
+    * supertest
 
 ## プロジェクト用の設定を行う
 1. cd [application name]
